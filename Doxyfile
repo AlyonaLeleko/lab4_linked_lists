@@ -1,0 +1,11 @@
+PROJECT_NAME = "ЛР4 - Связанные списки"
+PROJECT_BRIEF = "Однонаправленные, двунаправленные и многопотоковые списки"
+INPUT = include src
+RECURSIVE = YES
+EXTRACT_ALL = YES
+GENERATE_HTML = YES
+GENERATE_LATEX = NO
+OUTPUT_DIRECTORY = docs
+HAVE_DOT = YES
+CALL_GRAPH = YES
+CALLER_GRAPH = YES

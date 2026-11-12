@@ -2,41 +2,29 @@
 #include <string>
 #include <vector>
 
-struct Node {
-    int value;
-    Node* next = nullptr;
-};
-struct SingleList {
-    Node* top = nullptr;
-    Node* bottom = nullptr;
-};
-void append(SingleList& a, int x);
-bool erase(SingleList& a, int x);
-int maximum(const SingleList& a);
-bool sorted(const SingleList& a);
-std::vector<int> values(const SingleList& a);
-void clear(SingleList& a);
-Node* cycleStart(Node* top);
-bool breakCycle(Node* top);
+struct Cell { int value; Cell* next = nullptr; };
+struct SingleList { Cell* top = nullptr; Cell* bottom = nullptr; };
+void addEnd(SingleList& list, int value);
+void addBeginning(SingleList& list, int value);
+bool removeValue(SingleList& list, int value);
+Cell* findCell(const SingleList& list, int value);
+Cell* findBefore(const SingleList& list, int value);
+int maximum(const SingleList& list);
+bool isSorted(const SingleList& list);
+std::vector<int> values(const SingleList& list);
+void clear(SingleList& list);
+Cell* cycleStart(Cell* top);
+bool breakCycle(Cell* top);
 
-struct DNode {
-    int value;
-    DNode* next = nullptr;
-    DNode* prev = nullptr;
-};
-struct DoubleList {
-    DNode* top = nullptr;
-    DNode* bottom = nullptr;
-};
-void insertAfter(DoubleList& a, DNode* pos, DNode* node);
-void pushFront(DoubleList& a, int x);
-void pushBack(DoubleList& a, int x);
-void pushFrontViaInsert(DoubleList& a, int x);
-void pushBackViaInsert(DoubleList& a, int x);
-bool erase(DoubleList& a, int x);
-void insertSorted(DoubleList& a, int x);
-std::vector<int> values(const DoubleList& a);
-void clear(DoubleList& a);
+struct DCell { int value; DCell* next = nullptr; DCell* prev = nullptr; };
+struct DoubleList { DCell* top = nullptr; DCell* bottom = nullptr; };
+void insertCell(DoubleList& list, DCell* before, DCell* cell);
+void addBeginning(DoubleList& list, int value);
+void addEnd(DoubleList& list, int value);
+bool removeValue(DoubleList& list, int value);
+void insertSorted(DoubleList& list, int value);
+std::vector<int> values(const DoubleList& list);
+void clear(DoubleList& list);
 
 struct Planet {
     std::string name;
@@ -45,13 +33,36 @@ struct Planet {
     Planet* nextMass = nullptr;
     Planet* nextDiameter = nullptr;
 };
-struct PlanetList {
+class PlanetList {
     std::vector<Planet*> owned;
     Planet* byDistance = nullptr;
     Planet* byMass = nullptr;
     Planet* byDiameter = nullptr;
+public:
+    PlanetList() = default;
+    PlanetList(const PlanetList&) = delete;
+    PlanetList& operator=(const PlanetList&) = delete;
+    ~PlanetList();
+    void addPlanet(const std::string& name, double distance, double mass, double diameter);
+    std::vector<std::string> names(int order) const;
 };
-void addPlanet(PlanetList& a, const std::string& name, double distance, double mass,
-               double diameter);
-std::vector<std::string> planetNames(const PlanetList& a, int field);
-void clear(PlanetList& a);
+
+// Задания 7 и 8: сортированный двунаправленный список имён с ограничителями.
+struct NameCell {
+    std::string name;
+    NameCell* next = nullptr;
+    NameCell* prev = nullptr;
+};
+class SortedNames {
+    NameCell topSentinel{""};      // меньше любого имени
+    NameCell bottomSentinel{""};   // больше любого имени
+public:
+    SortedNames();
+    SortedNames(const SortedNames&) = delete;
+    SortedNames& operator=(const SortedNames&) = delete;
+    ~SortedNames();
+    void insert(const std::string& name);
+    bool findFromTop(const std::string& name) const;
+    bool findFromBottom(const std::string& name) const;
+    std::vector<std::string> names() const;
+};
